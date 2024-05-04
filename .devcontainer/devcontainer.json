@@ -11,7 +11,8 @@
   "customizations": {
     "vscode": {
       "settings": {},
-      "extensions": [ 
+      "extensions": [
+        "eamodio.gitlens", 
         "Vue.volar",
         "ms-vscode.vscode-typescript-next",
         "Angular.ng-template",
