@@ -1,0 +1,10 @@
+.body {
+  text-align: center;
+}
+.pureBlooded {
+  color: gold;
+}
+
+.notPureBlooded {
+  color: rgb(49, 49, 49);
+}
