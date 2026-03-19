@@ -3,6 +3,17 @@
 Vue 3 と Angular 17 の学習用プロジェクトです。
 同じ題材（Harry Potter API からウィザード情報を取得・表示）を両フレームワークで実装し、設計思想やコードの書き方の違いを比較できます。
 
+## Demo
+
+GitHub Pages にデプロイ済み:
+**https://tommykey0925.github.io/checkWizards/**
+
+- [Vue 3 版](https://tommykey0925.github.io/checkWizards/vue/)
+- [Angular 17 版](https://tommykey0925.github.io/checkWizards/angular/)
+
+> GitHub リポジトリの Settings → Pages で Source を **GitHub Actions** に設定してください。
+> `main` ブランチに push すると自動デプロイされます。
+
 ## Quick Start
 
 ```bash
@@ -18,10 +29,10 @@ pnpm run dev:angular
 
 ## プロジェクト構成
 
-| ディレクトリ | フレームワーク | 状態管理 | ビルドツール |
-|---|---|---|---|
-| `ilovebeer/` | Vue 3 + TypeScript | Pinia (Composition API) | Vite |
-| `ilovewisky/` | Angular 17 + TypeScript | Service (DI) | Angular CLI |
+| ディレクトリ | フレームワーク | 状態管理 | HTTP通信 | ビルドツール |
+|---|---|---|---|---|
+| `ilovebeer/` | Vue 3 + TypeScript | Pinia (Composition API) | axios | Vite |
+| `ilovewisky/` | Angular 17 + TypeScript | Service (DI) | HttpClient (RxJS) | Angular CLI |
 
 ## 学習ポイント
 
@@ -33,6 +44,7 @@ pnpm run dev:angular
 | Pinia によるストア管理 | `src/stores/wizard.ts` |
 | Vue Router | `src/router/index.ts` |
 | リアクティブ (ref, computed) | `src/views/WizardView.vue` |
+| axios による HTTP 通信 | `src/stores/wizard.ts` |
 
 ### Angular 17 (`ilovewisky/`)
 
@@ -40,6 +52,7 @@ pnpm run dev:angular
 |---|---|
 | Standalone Components | `src/app/wizard/wizard.component.ts` |
 | Service と DI (Dependency Injection) | `src/app/gryffindor.service.ts` |
+| HttpClient + RxJS (firstValueFrom, timeout) | `src/app/gryffindor.service.ts` |
 | Angular Router | `src/app/app.routes.ts` |
 | テンプレート構文 (`*ngIf`, バインディング) | `src/app/wizard/wizard.component.html` |
 
@@ -49,6 +62,7 @@ pnpm run dev:angular
 |---|---|---|
 | コンポーネント定義 | `.vue` SFC (Single File Component) | デコレータ `@Component` |
 | 状態管理 | Pinia ストア (`defineStore`) | Injectable Service |
+| HTTP 通信 | axios (Promise ベース) | HttpClient (Observable → firstValueFrom) |
 | テンプレート分岐 | `v-if` / `v-else` | `*ngIf` |
 | データバインディング | `:attr` / `{{ }}` | `[attr]` / `{{ }}` |
 | ルーティング | `<RouterLink>` / `<RouterView>` | `routerLink` / `<router-outlet>` |

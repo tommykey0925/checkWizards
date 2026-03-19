@@ -10,7 +10,13 @@ import { GryffindorService } from '../gryffindor.service';
   styleUrl: './wizard.component.css'
 })
 export class WizardComponent {
+  imgFailed = false;
+
   constructor(public svc: GryffindorService) {}
+
+  onImgError() {
+    this.imgFailed = true;
+  }
 
   get houseColor(): string {
     const colors: Record<string, string> = {
@@ -24,10 +30,10 @@ export class WizardComponent {
 
   get houseBg(): string {
     const colors: Record<string, string> = {
-      Gryffindor: 'rgba(174,0,1,0.15)',
-      Slytherin: 'rgba(26,71,42,0.15)',
-      Ravenclaw: 'rgba(14,26,64,0.15)',
-      Hufflepuff: 'rgba(236,185,57,0.15)'
+      Gryffindor: 'rgba(174, 0, 1, 0.12)',
+      Slytherin: 'rgba(26, 71, 42, 0.12)',
+      Ravenclaw: 'rgba(14, 26, 64, 0.12)',
+      Hufflepuff: 'rgba(236, 185, 57, 0.12)'
     };
     return colors[this.svc.wizard.house] ?? 'rgba(255,255,255,0.05)';
   }

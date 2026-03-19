@@ -1,8 +1,13 @@
 <script setup lang="ts">
 import { useWizardStore } from '@/stores/wizard'
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 const store = useWizardStore()
+const imgFailed = ref(false)
+
+function onImgError() {
+  imgFailed.value = true
+}
 
 const houseColor = computed(() => {
   const colors: Record<string, string> = {
@@ -30,10 +35,11 @@ const houseBg = computed(() => {
     <div class="wizard-card" v-if="store.wizard.name">
       <div class="card-header" :style="{ background: houseBg, borderColor: houseColor }">
         <img
-          v-if="store.wizard.image"
+          v-if="store.wizard.image && !imgFailed"
           :src="store.wizard.image"
           :alt="store.wizard.name"
           class="wizard-avatar"
+          @error="onImgError"
         />
         <div v-else class="wizard-avatar placeholder">&#9733;</div>
         <h2>{{ store.wizard.name }}</h2>
@@ -229,6 +235,7 @@ h2 {
   border-top-color: #1a1a2e;
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
+  display: inline-block;
 }
 
 @keyframes spin {

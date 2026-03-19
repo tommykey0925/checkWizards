@@ -10,6 +10,14 @@ export interface Wizard {
   image: string
 }
 
+interface HpApiCharacter {
+  name: string
+  alternate_names: string[]
+  house: string
+  ancestry: string
+  image: string
+}
+
 const emptyWizard: Wizard = {
   name: '',
   alternateName: '',
@@ -31,6 +39,10 @@ const fallbackWizards: Wizard[] = [
   { name: 'Minerva McGonagall', alternateName: '', house: 'Gryffindor', ancestry: 'half-blood', image: '' },
 ]
 
+function pickRandom<T>(arr: T[]): T {
+  return arr[Math.floor(Math.random() * arr.length)]
+}
+
 export const useWizardStore = defineStore('wizard', () => {
   const wizard = ref<Wizard>({ ...emptyWizard })
   const loading = ref(false)
@@ -40,10 +52,13 @@ export const useWizardStore = defineStore('wizard', () => {
     loading.value = true
     error.value = null
     try {
-      const res = await axios.get('https://hp-api.onrender.com/api/characters', { timeout: 5000 })
-      const characters = res.data.filter((c: any) => c.name && c.house)
-      const idx = Math.floor(Math.random() * Math.min(characters.length, 40))
-      const c = characters[idx]
+      const res = await axios.get<HpApiCharacter[]>(
+        'https://hp-api.onrender.com/api/characters',
+        { timeout: 5000 }
+      )
+      const characters = res.data.filter((c) => c.name && c.house)
+      if (characters.length === 0) throw new Error('No characters found')
+      const c = pickRandom(characters.slice(0, 40))
       wizard.value = {
         name: c.name,
         alternateName: c.alternate_names?.[0] ?? '',
@@ -52,8 +67,7 @@ export const useWizardStore = defineStore('wizard', () => {
         image: c.image ?? ''
       }
     } catch {
-      const idx = Math.floor(Math.random() * fallbackWizards.length)
-      wizard.value = { ...fallbackWizards[idx] }
+      wizard.value = { ...pickRandom(fallbackWizards) }
       error.value = 'API unavailable - showing offline data'
     } finally {
       loading.value = false

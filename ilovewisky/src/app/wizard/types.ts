@@ -6,10 +6,18 @@ export type Wizard = {
   image: string;
 }
 
-export const initwizard: Wizard = {
+export const initWizard: Wizard = {
   name: '',
   alternateName: '',
   house: '',
   ancestry: '',
   image: ''
+}
+
+export interface HpApiCharacter {
+  name: string;
+  alternate_names: string[];
+  house: string;
+  ancestry: string;
+  image: string;
 }

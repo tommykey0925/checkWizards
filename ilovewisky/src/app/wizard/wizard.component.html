@@ -2,12 +2,13 @@
   <div class="wizard-card" *ngIf="svc.wizard.name">
     <div class="card-header" [style.background]="houseBg" [style.borderBottomColor]="houseColor">
       <img
-        *ngIf="svc.wizard.image"
+        *ngIf="svc.wizard.image && !imgFailed"
         [src]="svc.wizard.image"
         [alt]="svc.wizard.name"
         class="wizard-avatar"
+        (error)="onImgError()"
       />
-      <div *ngIf="!svc.wizard.image" class="wizard-avatar placeholder">&#9733;</div>
+      <div *ngIf="!svc.wizard.image || imgFailed" class="wizard-avatar placeholder">&#9733;</div>
       <h2>{{ svc.wizard.name }}</h2>
       <p class="alternate" *ngIf="svc.wizard.alternateName">
         aka {{ svc.wizard.alternateName }}
