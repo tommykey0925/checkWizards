@@ -1,11 +1,15 @@
 export type Wizard = {
   name: string;
-  altername: string;
+  alternateName: string;
+  house: string;
   ancestry: string;
+  image: string;
 }
 
 export const initwizard: Wizard = {
-  name: "",
-  altername: "",
-  ancestry: ""
+  name: '',
+  alternateName: '',
+  house: '',
+  ancestry: '',
+  image: ''
 }

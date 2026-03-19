@@ -1,8 +1,25 @@
-# my first vue and angular app
+# Check Wizards
 
-## vue app is located under ilovebeer directory
+Discover random wizards from the Harry Potter universe. Built with **Vue 3** and **Angular 17**.
 
-## the other is under iloveWiskeyToo
+## Quick Start
 
-you have to change the version of node to 20.9.0 if you wanna run angular project
-check: https://angular.io/guide/versions
+```bash
+# Install all dependencies
+npm run install:all
+
+# Run the Vue app (http://localhost:5173)
+npm run dev:vue
+
+# Run the Angular app (http://localhost:4200)
+npm run dev:angular
+```
+
+## Project Structure
+
+| Directory | Framework | State Management | Build Tool |
+|-----------|-----------|-----------------|------------|
+| `ilovebeer/` | Vue 3 + TypeScript | Pinia | Vite |
+| `ilovewisky/` | Angular 17 + TypeScript | Service-based | Angular CLI |
+
+Both apps fetch wizard data from the [Harry Potter API](https://hp-api.onrender.com/api/characters).

@@ -1,0 +1,16 @@
+{
+  "name": "check-wizards",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Harry Potter Wizard Viewer - Vue 3 & Angular 17",
+  "scripts": {
+    "install:vue": "cd ilovebeer && npm install",
+    "install:angular": "cd ilovewisky && npm install",
+    "install:all": "npm run install:vue && npm run install:angular",
+    "dev:vue": "cd ilovebeer && npm run dev",
+    "dev:angular": "cd ilovewisky && npm start",
+    "dev": "npm run dev:vue",
+    "build:vue": "cd ilovebeer && npm run build",
+    "build:angular": "cd ilovewisky && npm run build"
+  }
+}

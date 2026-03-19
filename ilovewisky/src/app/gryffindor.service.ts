@@ -6,19 +6,29 @@ import axios from 'axios';
   providedIn: 'root'
 })
 export class GryffindorService {
-
-  constructor() { }
-
-  wizard: Wizard = initwizard;
+  wizard: Wizard = { ...initwizard };
+  loading = false;
+  error: string | null = null;
 
   async setWizard() {
-    const num: number = Math.floor(Math.random() * 20)
-    const res = await axios.get('https://hp-api.onrender.com/api/characters');
-    const tar = res.data.slice(0, 80).filter((e: any) => e.house == 'Gryffindor')[num];
-    this.wizard = {
-      name: tar.name,
-      altername: tar.alternate_names[0],
-      ancestry: tar.ancestry
+    this.loading = true;
+    this.error = null;
+    try {
+      const res = await axios.get('https://hp-api.onrender.com/api/characters');
+      const characters = res.data.filter((c: any) => c.name && c.house);
+      const idx = Math.floor(Math.random() * Math.min(characters.length, 40));
+      const c = characters[idx];
+      this.wizard = {
+        name: c.name,
+        alternateName: c.alternate_names?.[0] ?? '',
+        house: c.house,
+        ancestry: c.ancestry ?? 'unknown',
+        image: c.image ?? ''
+      };
+    } catch {
+      this.error = 'Failed to fetch wizard. Please try again.';
+    } finally {
+      this.loading = false;
     }
   }
 }

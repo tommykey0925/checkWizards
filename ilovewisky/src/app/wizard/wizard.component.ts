@@ -1,20 +1,34 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { GryffindorService } from '../gryffindor.service';
 
 @Component({
   selector: 'app-wizard',
   standalone: true,
-  imports: [],
+  imports: [CommonModule],
   templateUrl: './wizard.component.html',
   styleUrl: './wizard.component.css'
 })
 export class WizardComponent {
-setWizard() {
-throw new Error('Method not implemented.');
-}
-  constructor(public wizard: GryffindorService) {}
+  constructor(public svc: GryffindorService) {}
 
-  setClass () :string {
-    return this.wizard.wizard.ancestry == 'pure-blood' ? 'pureBlooded' : 'notPureBlooded';
+  get houseColor(): string {
+    const colors: Record<string, string> = {
+      Gryffindor: '#ae0001',
+      Slytherin: '#1a472a',
+      Ravenclaw: '#0e1a40',
+      Hufflepuff: '#ecb939'
+    };
+    return colors[this.svc.wizard.house] ?? '#444';
+  }
+
+  get houseBg(): string {
+    const colors: Record<string, string> = {
+      Gryffindor: 'rgba(174,0,1,0.15)',
+      Slytherin: 'rgba(26,71,42,0.15)',
+      Ravenclaw: 'rgba(14,26,64,0.15)',
+      Hufflepuff: 'rgba(236,185,57,0.15)'
+    };
+    return colors[this.svc.wizard.house] ?? 'rgba(255,255,255,0.05)';
   }
 }

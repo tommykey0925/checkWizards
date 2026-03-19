@@ -1,10 +1,43 @@
-<div class="body">
-  <img src="../../assets/Gryffindor-Logo.svg" width="100" height="120"/>
-  <p class={{setClass()}}>
-    name: {{wizard.wizard.name}}<br>
-    altername: {{wizard.wizard.altername}}<br>
-    house: Gryffindor<br>
-    ancestry: {{wizard.wizard.ancestry}}<br>
-  </p>
-  <button (click)="wizard.setWizard()" style="background-color: goldenrod; color: black;"> fetch new wizard</button>
+<div class="wizard-page">
+  <div class="wizard-card" *ngIf="svc.wizard.name">
+    <div class="card-header" [style.background]="houseBg" [style.borderBottomColor]="houseColor">
+      <img
+        *ngIf="svc.wizard.image"
+        [src]="svc.wizard.image"
+        [alt]="svc.wizard.name"
+        class="wizard-avatar"
+      />
+      <div *ngIf="!svc.wizard.image" class="wizard-avatar placeholder">&#9733;</div>
+      <h2>{{ svc.wizard.name }}</h2>
+      <p class="alternate" *ngIf="svc.wizard.alternateName">
+        aka {{ svc.wizard.alternateName }}
+      </p>
+    </div>
+    <div class="card-body">
+      <div class="info-row">
+        <span class="label">House</span>
+        <span class="value house-badge" [style.background]="houseColor">
+          {{ svc.wizard.house }}
+        </span>
+      </div>
+      <div class="info-row">
+        <span class="label">Ancestry</span>
+        <span class="value" [class.pure-blood]="svc.wizard.ancestry === 'pure-blood'">
+          {{ svc.wizard.ancestry || 'unknown' }}
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <div class="empty-state" *ngIf="!svc.wizard.name && !svc.loading">
+    <span class="empty-icon">&#9733;</span>
+    <p>Click the button to discover a wizard!</p>
+  </div>
+
+  <p *ngIf="svc.error" class="error">{{ svc.error }}</p>
+
+  <button (click)="svc.setWizard()" [disabled]="svc.loading" class="fetch-btn">
+    <span *ngIf="svc.loading" class="spinner"></span>
+    {{ svc.loading ? 'Summoning...' : 'Summon a Wizard' }}
+  </button>
 </div>
