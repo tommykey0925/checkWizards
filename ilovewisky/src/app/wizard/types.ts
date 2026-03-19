@@ -1,11 +1,23 @@
 export type Wizard = {
   name: string;
-  altername: string;
+  alternateName: string;
+  house: string;
   ancestry: string;
+  image: string;
 }
 
-export const initwizard: Wizard = {
-  name: "",
-  altername: "",
-  ancestry: ""
+export const initWizard: Wizard = {
+  name: '',
+  alternateName: '',
+  house: '',
+  ancestry: '',
+  image: ''
+}
+
+export interface HpApiCharacter {
+  name: string;
+  alternate_names: string[];
+  house: string;
+  ancestry: string;
+  image: string;
 }

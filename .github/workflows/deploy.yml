@@ -1,0 +1,104 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: |
+            ilovebeer/pnpm-lock.yaml
+            ilovewisky/pnpm-lock.yaml
+
+      - name: Install & Build Vue app
+        working-directory: ilovebeer
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Install & Build Angular app
+        working-directory: ilovewisky
+        run: |
+          pnpm install
+          pnpm build
+
+      - name: Assemble site
+        run: |
+          mkdir -p _site/vue _site/angular
+          cp -r ilovebeer/dist/* _site/vue/
+          # Angular outputs to dist/ilovewisky/browser for v17
+          if [ -d ilovewisky/dist/ilovewisky/browser ]; then
+            cp -r ilovewisky/dist/ilovewisky/browser/* _site/angular/
+          else
+            cp -r ilovewisky/dist/ilovewisky/* _site/angular/
+          fi
+          cat > _site/index.html << 'LANDING'
+          <!DOCTYPE html>
+          <html lang="en">
+          <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Check Wizards</title>
+            <style>
+              * { box-sizing: border-box; margin: 0; }
+              body { min-height: 100vh; background: #0f0f23; color: #fff; font-family: -apple-system, sans-serif; display: flex; align-items: center; justify-content: center; }
+              .container { text-align: center; }
+              .icon { font-size: 4rem; color: #ffd700; margin-bottom: 1.5rem; }
+              h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+              p { color: rgba(255,255,255,0.5); margin-bottom: 2rem; }
+              .links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+              a { display: inline-block; padding: 1rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: transform 0.2s; }
+              a:hover { transform: translateY(-2px); }
+              .vue { background: #42b883; color: #fff; }
+              .angular { background: #dd0031; color: #fff; }
+            </style>
+          </head>
+          <body>
+            <div class="container">
+              <div class="icon">&#9733;</div>
+              <h1>Check Wizards</h1>
+              <p>Choose a framework to explore</p>
+              <div class="links">
+                <a href="vue/" class="vue">Vue 3 + Pinia</a>
+                <a href="angular/" class="angular">Angular 17</a>
+              </div>
+            </div>
+          </body>
+          </html>
+          LANDING
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
