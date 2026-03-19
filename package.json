@@ -4,13 +4,13 @@
   "private": true,
   "description": "Harry Potter Wizard Viewer - Vue 3 & Angular 17",
   "scripts": {
-    "install:vue": "cd ilovebeer && npm install",
-    "install:angular": "cd ilovewisky && npm install",
-    "install:all": "npm run install:vue && npm run install:angular",
-    "dev:vue": "cd ilovebeer && npm run dev",
-    "dev:angular": "cd ilovewisky && npm start",
-    "dev": "npm run dev:vue",
-    "build:vue": "cd ilovebeer && npm run build",
-    "build:angular": "cd ilovewisky && npm run build"
+    "install:vue": "cd ilovebeer && pnpm install",
+    "install:angular": "cd ilovewisky && pnpm install",
+    "install:all": "pnpm run install:vue && pnpm run install:angular",
+    "dev:vue": "cd ilovebeer && pnpm dev",
+    "dev:angular": "cd ilovewisky && pnpm start",
+    "dev": "pnpm run dev:vue",
+    "build:vue": "cd ilovebeer && pnpm build",
+    "build:angular": "cd ilovewisky && pnpm build"
   }
 }

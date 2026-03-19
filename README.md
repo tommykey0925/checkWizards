@@ -6,13 +6,13 @@ Discover random wizards from the Harry Potter universe. Built with **Vue 3** and
 
 ```bash
 # Install all dependencies
-npm run install:all
+pnpm run install:all
 
 # Run the Vue app (http://localhost:5173)
-npm run dev:vue
+pnpm run dev:vue
 
 # Run the Angular app (http://localhost:4200)
-npm run dev:angular
+pnpm run dev:angular
 ```
 
 ## Project Structure
